@@ -10,6 +10,7 @@ import About from './sections/About';
 import Capabilities from './sections/Capabilities';
 import SelectedWork from './sections/SelectedWork';
 import Experience from './sections/Experience';
+import Blogs from './sections/Blogs';
 import FeaturedProject from './sections/FeaturedProject';
 import Consultation from './sections/Consultation';
 import Principles from './sections/Principles';
@@ -83,6 +84,7 @@ function App() {
         <Capabilities />
         <SelectedWork />
         <Experience />
+        <Blogs />
         <FeaturedProject />
         <Consultation />
         <Principles />
