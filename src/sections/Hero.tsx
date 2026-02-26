@@ -183,7 +183,9 @@ const Hero = () => {
               />
             </button>
             <a
-              href="mailto:mail.ankurdhuriya@gmail.com"
+              href="https://drive.google.com/file/d/1-ERswC6aIPuPd940_AML_4t0aqqcrvxa/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-sm text-text-secondary hover:text-text-primary flex items-center gap-2 transition-colors"
             >
               <Download size={16} />
@@ -217,9 +219,9 @@ const Hero = () => {
           }}
         >
           <img
-            src="/profile.png"
+            src="/profile.jpg"
             alt="Ankur Dhuriya"
-            className="w-full h-full object-cover object-top shadow-portrait"
+            className="w-full h-full object-contain shadow-portrait"
           />
         </div>
 
