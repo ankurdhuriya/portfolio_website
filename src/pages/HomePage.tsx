@@ -10,6 +10,7 @@ import About from '../sections/About';
 import Capabilities from '../sections/Capabilities';
 import SelectedWork from '../sections/SelectedWork';
 import Experience from '../sections/Experience';
+import Education from '../sections/Education';
 import Blogs from '../sections/Blogs';
 import FeaturedProject from '../sections/FeaturedProject';
 import Consultation from '../sections/Consultation';
@@ -92,6 +93,7 @@ function HomePage() {
         <Capabilities />
         <SelectedWork />
         <Experience />
+        <Education />
         <Blogs />
         <FeaturedProject />
         <Consultation />
