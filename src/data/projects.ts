@@ -10,6 +10,8 @@ export type WorkProject = {
   image: string;
   /** Full case study body (Markdown); optional per project */
   caseStudyMarkdown?: string;
+  /** Homepage featured block: must also have slug + caseStudyMarkdown */
+  featured?: boolean;
 };
 
 export const workProjects: WorkProject[] = [
@@ -27,6 +29,7 @@ export const workProjects: WorkProject[] = [
       'Production RAG for IDP across procurement: 450K+ invoices/year, 12 languages, NL spend analytics, 3-way matching, and duplicate detection. ~81% faster processing, ~$1.9M annual cost avoidance, sub-second hybrid retrieval at scale.',
     image: '/case-study-invoice.jpg',
     caseStudyMarkdown: multilingualInvoiceCaseStudy,
+    featured: true,
   },
   {
     slug: 'semantic-cache-agentic-workflows',
@@ -55,4 +58,14 @@ export const workProjects: WorkProject[] = [
 
 export function getWorkProjectBySlug(slug: string): WorkProject | undefined {
   return workProjects.find((p) => p.slug === slug);
+}
+
+/** Project shown in the Featured Project section; only entries with a case study qualify. */
+export function getFeaturedCaseStudyProject(): WorkProject | undefined {
+  const candidates = workProjects.filter(
+    (p): p is WorkProject & { slug: string } =>
+      Boolean(p.slug && p.caseStudyMarkdown)
+  );
+  const marked = candidates.find((p) => p.featured);
+  return marked ?? candidates[0];
 }

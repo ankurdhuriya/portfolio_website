@@ -1,16 +1,20 @@
 import { useRef, useLayoutEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight } from 'lucide-react';
+import { getFeaturedCaseStudyProject } from '../data/projects';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const FeaturedProject = () => {
+  const project = getFeaturedCaseStudyProject();
+
   const sectionRef = useRef<HTMLElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const bodyRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLButtonElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -69,7 +73,11 @@ const FeaturedProject = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [project?.slug]);
+
+  if (!project?.slug) {
+    return null;
+  }
 
   return (
     <section
@@ -90,25 +98,25 @@ const FeaturedProject = () => {
             ref={headlineRef}
             className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary leading-tight mb-6"
           >
-            Invoice Intelligence
+            {project.title}
           </h2>
 
           <p ref={bodyRef} className="text-base text-text-secondary leading-relaxed mb-8">
-            A RAG-based system that reads invoices, POs, and contracts, then
-            answers spend and compliance questions with line-item
-            precision—integrated into an NLQ chatbot for finance teams.
+            {project.description}
           </p>
 
-          <button
+          <Link
             ref={ctaRef}
-            className="self-start flex items-center gap-2 text-sm text-lime hover:text-lime-dark transition-colors group"
+            to={`/work/${project.slug}`}
+            className="self-start inline-flex items-center gap-2 text-sm text-lime hover:text-lime-dark transition-colors group"
           >
             Read the case study
             <ArrowRight
               size={16}
               className="group-hover:translate-x-1 transition-transform"
+              aria-hidden
             />
-          </button>
+          </Link>
         </div>
 
         {/* Right image */}
@@ -123,8 +131,8 @@ const FeaturedProject = () => {
           }}
         >
           <img
-            src="/image-featured.jpg"
-            alt="Invoice Intelligence"
+            src={project.image}
+            alt={project.title}
             className="w-full h-full object-cover"
           />
         </div>
