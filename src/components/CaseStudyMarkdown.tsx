@@ -4,9 +4,15 @@ import type { Components } from 'react-markdown';
 
 function resolvePublicAssetUrl(src: string): string {
   if (src.startsWith('http') || src.startsWith('data:')) return src;
-  const base = import.meta.env.BASE_URL;
   const path = src.replace(/^\//, '');
-  return `${base}${path}`;
+  const base = import.meta.env.BASE_URL;
+  // With base: './', `${base}${path}` is route-relative (e.g. on /work/slug it becomes
+  // /work/foo.png). Public files live at site root, so use a path from the origin root.
+  if (base.startsWith('/')) {
+    const prefix = base === '/' ? '' : base.endsWith('/') ? base.slice(0, -1) : base;
+    return `${prefix}/${path}`;
+  }
+  return `/${path}`;
 }
 
 const components: Components = {
