@@ -1,7 +1,9 @@
 import { useRef, useLayoutEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight } from 'lucide-react';
+import { workProjects } from '../data/projects';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -90,37 +92,6 @@ const SelectedWork = () => {
     return () => ctx.revert();
   }, []);
 
-  const projects = [
-    {
-      title: 'Invoice Intelligence RAG',
-      tags: ['RAG', 'Azure OpenAI', 'NLQ'],
-      description:
-        'Reduced AP cycle times with retrieval-augmented invoice QA. Integrated OCR, semantic chunking, and embedding-powered retrieval.',
-      image: '/case-study-invoice.jpg',
-    },
-    {
-      title: 'Semantic Caching Layer',
-      tags: ['LangChain', 'Redis', 'Embeddings'],
-      description:
-        'Cut LLM costs by ~50% and latency from 6s to 100ms using a semantic caching layer with vector store and OpenAI embeddings.',
-      image: '/case-study-caching.jpg',
-    },
-    {
-      title: 'Indic ASR at Scale',
-      tags: ['Whisper', 'PyTorch', 'MLOps'],
-      description:
-        'Delivered 18-language STT outperforming cloud baselines. Built end-to-end speech recognition pipeline with production deployment.',
-      image: '/case-study-asr.jpg',
-    },
-    {
-      title: 'Agentic Code Assistant',
-      tags: ['CrewAI', 'LangGraph', 'FastAPI'],
-      description:
-        'Decomposed complex tasks into verified subtasks for developers. Enhanced productivity with autonomous multi-agent AI systems.',
-      image: '/case-study-agentic.jpg',
-    },
-  ];
-
   return (
     <section
       ref={sectionRef}
@@ -141,7 +112,7 @@ const SelectedWork = () => {
 
         {/* Project cards */}
         <div className="space-y-16 lg:space-y-24">
-          {projects.map((project, index) => (
+          {workProjects.map((project, index) => (
             <div
               key={index}
               ref={(el) => { cardsRef.current[index] = el; }}
@@ -182,13 +153,23 @@ const SelectedWork = () => {
                   {project.description}
                 </p>
 
-                <button className="self-start flex items-center gap-2 text-sm text-lime hover:text-lime-dark transition-colors group">
-                  View case study
-                  <ArrowUpRight
-                    size={16}
-                    className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
-                  />
-                </button>
+                {project.slug ? (
+                  <Link
+                    to={`/work/${project.slug}`}
+                    className="self-start flex items-center gap-2 text-sm text-lime hover:text-lime-dark transition-colors group"
+                  >
+                    View case study
+                    <ArrowUpRight
+                      size={16}
+                      className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                      aria-hidden
+                    />
+                  </Link>
+                ) : (
+                  <span className="self-start text-sm text-text-secondary/70 cursor-default">
+                    Case study soon
+                  </span>
+                )}
 
                 <div className="card-rule h-px w-full bg-[rgba(244,246,250,0.14)] mt-6 origin-left" />
               </div>

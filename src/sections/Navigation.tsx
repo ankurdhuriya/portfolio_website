@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 const Navigation = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === '/';
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -23,9 +27,14 @@ const Navigation = () => {
   ];
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (isHome) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      const id = href.startsWith('#') ? href.slice(1) : href;
+      navigate(`/#${id}`);
     }
     setIsMobileMenuOpen(false);
   };
@@ -41,16 +50,25 @@ const Navigation = () => {
       >
         <div className="w-full px-6 lg:px-12 py-4 flex items-center justify-between">
           {/* Logo */}
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-            className="font-heading text-lg font-bold text-text-primary hover:text-lime transition-colors"
-          >
-            Ankur Dhuriya
-          </a>
+          {isHome ? (
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="font-heading text-lg font-bold text-text-primary hover:text-lime transition-colors"
+            >
+              Ankur Dhuriya
+            </a>
+          ) : (
+            <Link
+              to="/"
+              className="font-heading text-lg font-bold text-text-primary hover:text-lime transition-colors"
+            >
+              Ankur Dhuriya
+            </Link>
+          )}
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
