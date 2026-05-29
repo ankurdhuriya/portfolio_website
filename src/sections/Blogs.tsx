@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Code2 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +16,55 @@ type MediumArticle = {
 
 const MEDIUM_RSS_URL =
   'https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@ankurdhuriya';
+
+const FEATURED_GIST = {
+  id: 'fd47e52920b4be54d98d39671dedfb5d',
+  title: 'Understanding KL Divergence from First Principles',
+  description: 'A deep dive into KL Divergence, its mathematical foundations, and practical applications in machine learning.',
+  language: 'Python',
+};
+
+const GistCard = () => {
+  return (
+    <a
+      href={`https://gist.github.com/ankurdhuriya/${FEATURED_GIST.id}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block border border-[rgba(244,246,250,0.14)] bg-dark-light/50 hover:border-lime/30 transition-colors overflow-hidden"
+    >
+      <div className="p-5 lg:p-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Code2 size={16} className="text-lime" />
+          <span className="font-mono text-xs text-text-secondary tracking-wider uppercase">
+            Code Snippet
+          </span>
+        </div>
+
+        <h3 className="font-heading text-lg font-bold text-text-primary mb-2 line-clamp-2 group-hover:text-lime transition-colors">
+          {FEATURED_GIST.title}
+        </h3>
+
+        <p className="text-sm text-text-secondary line-clamp-2 mb-4">
+          {FEATURED_GIST.description}
+        </p>
+
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-xs font-mono px-2 py-1 bg-dark border border-[rgba(244,246,250,0.14)] rounded text-text-secondary">
+            {FEATURED_GIST.language}
+          </span>
+        </div>
+
+        <span className="inline-flex items-center gap-2 text-sm text-lime group-hover:gap-3 transition-all">
+          View Gist
+          <ArrowUpRight
+            size={16}
+            className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+          />
+        </span>
+      </div>
+    </a>
+  );
+};
 
 const MediumCard = ({ article }: { article: MediumArticle }) => {
   return (
@@ -206,6 +255,14 @@ const Blogs = () => {
                 <MediumCard article={article} />
               </div>
             ))}
+
+            <div
+              ref={(el) => {
+                cardsRef.current[articles.length] = el;
+              }}
+            >
+              <GistCard />
+            </div>
           </div>
         )}
 
